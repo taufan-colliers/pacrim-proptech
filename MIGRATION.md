@@ -28,7 +28,12 @@ shell + home page. Later app migrations get their own detailed phase docs when t
 | Tab navigator | Port `cfm-ticket`'s react-navigation bottom tabs (not `NativeTabs`). |
 | Native dirs | CNG only. Committed `ios/` deleted; never hand-edit `ios/`/`android/`. |
 | Dead-end routes from home | Stub screens so navigation compiles and taps don't crash. |
-| Branding | Borrow `cfm_logo.jpeg` temporarily; rebrand decision deferred. |
+| Branding | Login/MFA headers use `app-logo.png` (`@/assets/images/app-logo.png`); rebrand otherwise deferred. |
+| Home menu (consolidated) | Home hosts exactly two tiles — CFM and CHR — both using `cfm-logo.jpeg` (`@/assets/images/cfm-logo.jpeg`). The CFM Ticket square menu moves into the CFM screen. |
+| CFM route | Tapping the CFM tile opens a basic Stack at `(protected)/cfm` mirroring `cfm-ticket/app/(protected)/(home-tabs)/index.tsx` (Screen + HomeHeader + MainSquareMenuTile + Callout). |
+| CFM menu | Hardcoded for now: the full tile list from the CFM Ticket home `appAccess` map replaces `useGetAccessList`-driven rendering. |
+| Deep links | `cfmfi://` / `cfmam://` are replaced for now by in-app stub screens (`inspector`, `asset`); revisit when those apps are ported. |
+| Tile image support | `MainSquareMenuTile.Item` renders local image assets in addition to remote `iconURI` URLs, keeping the same square tile size/proportions. |
 
 ## Target conventions
 
@@ -168,12 +173,27 @@ shell + home page. Later app migrations get their own detailed phase docs when t
 - [ ] `src/app/(protected)/(home-tabs)/_layout.tsx` — bottom tabs: Home / Company / Profile
 - [ ] Placeholder Company (`clients.tsx`) and Profile tabs
 
-**Home**
+**Home (consolidation launcher)**
 
-- [ ] `src/app/(protected)/(home-tabs)/index.tsx`
-- [ ] `useUserInfo`, `useGetAccessList`, `useClientActive`, `useRefetch`
-- [ ] `HomeHeader`, `MainSquareMenuTile`, `Callout` (+ styles)
+- [ ] `src/app/(protected)/(home-tabs)/index.tsx` — exactly two tiles: CFM and CHR (both use `cfm-logo.jpeg`)
+- [ ] `MainSquareMenuTile.Item` accepts local static image sources alongside `iconURI`, with identical tile sizing/proportions
+- [ ] CFM tile → `/(protected)/cfm`; CHR tile → `/(protected)/chr` stub
+
+**CFM screen (mirrors `cfm-ticket/app/(protected)/(home-tabs)/index.tsx`)**
+
+- [ ] `src/app/(protected)/cfm/_layout.tsx` — basic Stack, `headerShown: false`
+- [ ] `src/app/(protected)/cfm/index.tsx` — `Screen`, `HomeHeader`, `MainSquareMenuTile`, `Callout` (+ styles)
+- [ ] Non-employee callout (`idEmployee == 0`) preserved
+- [ ] Hardcoded menu constant replacing `useGetAccessList`; tiles match the source `appAccess` map:
+  - CFM Ticket (`cfmcrm`) → `/work-request/status/outstanding-wr`
+  - CFM Asset (`cfmam`) → `/(protected)/asset` stub
+  - CFM Inspector (`cfmfi`) → `/(protected)/inspector` stub
+  - Dashboard → `/reports`
+  - Cost Approval → `/cost-approval/requests/outstanding-ca`
+- [ ] `useUserInfo`, `useClientActive`, `useRefetch`
 - [ ] `services/client/clientPermission` wiring (parser already ported)
+- [ ] `MainSquareMenuTile.Item` renders remote `appIconURL` icons via `Picture`
+- [ ] Bell press → notifications stub; client-name tap → `clients` stub
 
 **Stubs (real screens in later phases)**
 
@@ -181,7 +201,9 @@ shell + home page. Later app migrations get their own detailed phase docs when t
 - [ ] `(protected)/work-request/status/outstanding-wr`
 - [ ] `(protected)/reports/index`
 - [ ] `(protected)/cost-approval/requests/outstanding-ca`
-- [ ] Deep links `cfmfi://`, `cfmam://` preserved; analytics ghosted
+- [ ] `(protected)/chr` — CHR stack placeholder
+- [ ] `(protected)/asset` and `(protected)/inspector` — basic placeholder screens replacing the `cfmfi://`/`cfmam://` deep links
+- [ ] Analytics ghosted
 - [ ] `plugins/withQueries.js` for Android sibling-app visibility
 
 ---
