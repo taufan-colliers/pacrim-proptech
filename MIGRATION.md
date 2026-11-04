@@ -132,36 +132,44 @@ shell + home page. Later app migrations get their own detailed phase docs when t
 
 **Routes**
 
-- [ ] `src/app/_layout.tsx` — providers: QueryClient, ToastManager, GestureHandlerRootView, KeyboardProvider, theme
-- [ ] `src/app/sign-in.tsx`
-- [ ] `src/app/verify-session.tsx`
-- [ ] `src/app/+not-found.tsx`
-- [ ] Remove starter `src/app/explore.tsx`, repoint `src/app/index.tsx` to the home tab
+- [x] `src/app/_layout.tsx` — providers: QueryClient, ToastManager, GestureHandlerRootView, KeyboardProvider, theme
+- [x] `src/app/sign-in.tsx`
+- [x] `src/app/verify-session.tsx`
+- [x] `src/app/+not-found.tsx`
+- [x] Remove starter `src/app/explore.tsx`, repoint `src/app/index.tsx` to the home tab
+  - Note: `index.tsx` is a temporary session-gated placeholder (role + logout) until Phase 1b
+    adds `(protected)/(home-tabs)`. Starter `app-tabs.tsx` / `app-tabs.web.tsx` removed too —
+    both referenced the deleted `/explore` route and are superseded by Phase 1b's react-navigation
+    bottom tabs.
 
 **Form system**
 
-- [ ] `src/context/parentForm/{formHook,formHookContext,TSFField}` (+ TSF* modules needed to compile)
-- [ ] `src/constants/forms/login`, `src/constants/forms/index`
-- [ ] `src/types/components/form`
+- [x] `src/context/parentForm/{formHook,formHookContext,TSFField}` (+ TSF* modules needed to compile)
+  - Note: only `TSFField` is registered. `TSFList` / `TSFPhotos` / `TSFSelect` depend on
+    work-request code and arrive with their feature phase.
+- [x] `src/constants/forms/login`, `src/constants/forms/index`
+- [x] `src/types/components/form`
 
 **Hooks**
 
-- [ ] `useSignIn`, `useGetToken`, `useVerifyOTPInput`, `useVerifyOTP`, `useOTPInput`, `useDynamicTextInputRef`
-- [ ] `useSaveFCMToken` — **ghost version**: resolves, sets `loginStatus = true`, `TODO(replace-firebase)`
+- [x] `useSignIn`, `useGetToken`, `useVerifyOTPInput`, `useVerifyOTP`, `useOTPInput`, `useDynamicTextInputRef`
+- [x] `useSaveFCMToken` — **ghost version**: resolves, sets `loginStatus = true`, `TODO(replace-firebase)`
 
 **Components**
 
-- [ ] Atoms: `Gap`, `Icon`, `Phrase`, `Picture` (+ placeholder asset), `Touch`, `OTPInputWrapper`
-- [ ] Molecules: `AuthenticationHeader` (+ logo), `Button`, `ForgotPasswordLink`, `Field`, `FieldLabel`, `VerticalStick`
-- [ ] Organisms: `Screen`, `OTPInput`, `StatesWrapper` (+ lottie assets)
-- [ ] `src/constants/components`, `src/constants/keychainServices` usage, `src/helpers/haptics`
+- [x] Atoms: `Gap`, `Icon`, `Phrase`, `Picture` (+ placeholder asset), `Touch`, `OTPInputWrapper`
+  - Note: `Icon` uses `@react-native-vector-icons/material-design-icons`;
+    `@expo/vector-icons` is deprecated and not installed.
+- [x] Molecules: `AuthenticationHeader` (+ logo), `Button`, `ForgotPasswordLink`, `Field`, `FieldLabel`, `VerticalStick`
+- [x] Organisms: `Screen`, `OTPInput`, `StatesWrapper` (+ lottie assets)
+- [x] `src/constants/components`, `src/constants/keychainServices` usage, `src/helpers/haptics`
 
 **Behaviour**
 
-- [ ] Login success → save token → ghost FCM save → `loginStatus` true → `/` or `/verify-session`
-- [ ] MFA flow stores `verifiedSesion` with `mfaExpiryPeriod`
-- [ ] Expired-token (417) replay via saved credential works
-- [ ] Forgot-password link opens CFM user verification page
+- [x] Login success → save token → ghost FCM save → `loginStatus` true → `/` or `/verify-session`
+- [x] MFA flow stores `verifiedSesion` with `mfaExpiryPeriod`
+- [x] Expired-token (417) replay via saved credential works
+- [x] Forgot-password link opens CFM user verification page
 
 ---
 
