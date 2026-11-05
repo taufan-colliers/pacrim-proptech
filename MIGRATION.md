@@ -177,49 +177,56 @@ shell + home page. Later app migrations get their own detailed phase docs when t
 
 **Shell**
 
-- [ ] `src/app/(protected)/_layout.tsx` — auth gate (`token` + `loginStatus` + `/user-info` + MFA verified), splash control
-- [ ] `src/app/(protected)/(home-tabs)/_layout.tsx` — bottom tabs: Home / Company / Profile
-- [ ] Placeholder Company (`clients.tsx`) and Profile tabs
+- [x] `src/app/(protected)/_layout.tsx` — auth gate (`token` + `loginStatus` + `/user-info` + MFA verified), splash control
+  - Note: implemented as a single `authCheck` React Query (417 replay inside the query) instead of the
+    source's imperative effect; the target's React Compiler lint rejects setState-in-effect. The root
+    layout holds the splash on protected routes until this query settles.
+- [x] `src/app/(protected)/(home-tabs)/_layout.tsx` — bottom tabs: Home / Company / Profile
+- [x] Placeholder Company (`clients.tsx`) and Profile tabs
 
 **Home (consolidation launcher)**
 
-- [ ] `src/app/(protected)/(home-tabs)/index.tsx` — exactly two tiles: CFM and CHR (both use `cfm-logo.jpeg`)
-- [ ] `MainSquareMenuTile.Item` accepts local static image sources alongside `iconURI`, with identical tile sizing/proportions
-- [ ] CFM tile → `/(protected)/cfm`; CHR tile → `/(protected)/chr` stub
+- [x] `src/app/(protected)/(home-tabs)/index.tsx` — exactly two tiles: CFM and CHR (both use `cfm-logo.jpeg`)
+- [x] `MainSquareMenuTile.Item` accepts local static image sources alongside `iconURI`, with identical tile sizing/proportions
+- [x] CFM tile → `/(protected)/cfm`; CHR tile → `/(protected)/chr` stub
 
 **CFM screen (mirrors `cfm-ticket/app/(protected)/(home-tabs)/index.tsx`)**
 
-- [ ] `src/app/(protected)/cfm/_layout.tsx` — basic Stack, `headerShown: false`
-- [ ] `src/app/(protected)/cfm/index.tsx` — `Screen`, `HomeHeader`, `MainSquareMenuTile`, `Callout` (+ styles)
-- [ ] Non-employee callout (`idEmployee == 0`) preserved
-- [ ] Hardcoded menu constant replacing `useGetAccessList`; tiles match the source `appAccess` map:
+- [x] `src/app/(protected)/cfm/_layout.tsx` — basic Stack, `headerShown: false`
+- [x] `src/app/(protected)/cfm/index.tsx` — `Screen`, `HomeHeader`, `MainSquareMenuTile`, `Callout` (+ styles)
+- [x] Non-employee callout (`idEmployee == 0`) preserved
+- [x] Hardcoded menu constant replacing `useGetAccessList`; tiles match the source `appAccess` map:
   - CFM Ticket (`cfmcrm`) → `/work-request/status/outstanding-wr`
   - CFM Asset (`cfmam`) → `/(protected)/asset` stub
   - CFM Inspector (`cfmfi`) → `/(protected)/inspector` stub
   - Dashboard → `/reports`
   - Cost Approval → `/cost-approval/requests/outstanding-ca`
-- [ ] `useUserInfo`, `useClientActive`, `useRefetch`
-- [ ] `services/client/clientPermission` wiring (parser already ported)
-- [ ] `MainSquareMenuTile.Item` renders remote `appIconURL` icons via `Picture`
-- [ ] Bell press → notifications stub; client-name tap → `clients` stub
+  - Note: because the access list is gone, the hardcoded entries use Material Design vector icons;
+    `MainSquareMenuTile.Item` still supports remote `iconURI` and local `source` for when the API
+    list (or real per-app icons) returns.
+- [x] `useUserInfo`, `useClientActive`, `useRefetch`
+- [x] `services/client/clientPermission` wiring (parser already ported)
+- [x] `MainSquareMenuTile.Item` renders remote `appIconURL` icons via `Picture`
+- [x] Bell press → notifications stub; client-name tap → `clients` stub
 
 **Stubs (real screens in later phases)**
 
-- [ ] `(protected)/notifications/general`
-- [ ] `(protected)/work-request/status/outstanding-wr`
-- [ ] `(protected)/reports/index`
-- [ ] `(protected)/cost-approval/requests/outstanding-ca`
-- [ ] `(protected)/chr` — CHR stack placeholder
-- [ ] `(protected)/asset` and `(protected)/inspector` — basic placeholder screens replacing the `cfmfi://`/`cfmam://` deep links
-- [ ] Analytics ghosted
-- [ ] `plugins/withQueries.js` for Android sibling-app visibility
+- [x] `(protected)/notifications/general`
+- [x] `(protected)/work-request/status/outstanding-wr`
+- [x] `(protected)/reports/index`
+- [x] `(protected)/cost-approval/requests/outstanding-ca`
+- [x] `(protected)/chr` — CHR stack placeholder
+- [x] `(protected)/asset` and `(protected)/inspector` — basic placeholder screens replacing the `cfmfi://`/`cfmam://` deep links
+- [x] Analytics ghosted
+- [x] `plugins/withQueries.js` for Android sibling-app visibility
+
 
 ---
 
 ## Phase 1c — Verification gate
 
-- [ ] `npx tsc --noEmit`
-- [ ] `npx expo lint`
+- [x] `npx tsc --noEmit`
+- [x] `npx expo lint`
 - [ ] Manual: login success/failure, 417 refresh, MFA required/not, cold-start hydration, dark mode, toast errors
 - [ ] Manual: home access-list renders tiles; stubs navigate; logout clears session
 

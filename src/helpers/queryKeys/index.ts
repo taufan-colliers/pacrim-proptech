@@ -274,6 +274,7 @@ const notificationWorkRequest = {
 const userInfo = ['userInfo'],
   accessList = ['accessList'],
   adjudicate = ['adjudicate'],
+  authCheck = ['authCheck'],
   deletePhoto = ['deletePhoto'],
   assignWorkers = ['assignWorkers'],
   clientActive = ['clientActive'],
@@ -298,6 +299,7 @@ const userInfo = ['userInfo'],
  */
 const queryKeys = {
   accessList,
+  authCheck,
   updateProgress,
   additionalInformation,
   adjudicate,
